@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable CheatEngineTableVersion="34">
+  <CheatEntries>
+    <CheatEntry>
+      <ID>1</ID>
+      <Description>"t.MaxFPS"</Description>
+      <LastState Value="60" RealAddress="1FBE29E5BF8"/>
+      <VariableType>Float</VariableType>
+      <Address>"AT-Win64-Shipping.exe"+04C4C638</Address>
+      <Offsets>
+        <Offset>0</Offset>
+      </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>6</ID>
+      <Description>"FOV (0.0116563337" for 21:9, "0.008726646" for 16:9)"</Description>
+      <LastState Value="0.008726646192" RealAddress="7FF63B0E34B4"/>
+      <VariableType>Float</VariableType>
+      <Address>"AT-Win64-Shipping.exe"+32234B4</Address>
+    </CheatEntry>
+  </CheatEntries>
+  <UserdefinedSymbols/>
+</CheatTable>
