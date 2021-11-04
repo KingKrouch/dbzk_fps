@@ -32,6 +32,8 @@
 #include "../Source/ThirdParty/ModUtils/MemoryMgr.h"
 #include "../Source/ThirdParty/ModUtils/Patterns.h"
 #include "../Source/ThirdParty/ModUtils/Trampoline.h"
+// ThirteenAG's IniReader for reading config files.
+#include "../Source/ThirdParty/IniReader/IniReader.h"
 
 using namespace std;
 using namespace hook;
@@ -40,10 +42,26 @@ using namespace Memory::VP;
 // Misc variables
 bool check = true; // do not change to false or else resolution checks won't run.
 
-float maxFPS = 9999.00f;
+float useCustomFPSCap;
+float maxFPS;
 
 // Process HMODULE variable
 HMODULE baseModule = GetModuleHandle(NULL);
+
+namespace config
+{
+	void readConfig()
+	{
+		cout.flush();
+		//freopen(FILE**)stdout, "CONOUT$", "w", stdout); // Allows us to add outputs to the ASI Loader Console Window.
+		cout.clear();
+		cin.clear();
+		CIniReader config("config.ini");
+		// Framerate/VSync Config Values
+		useCustomFPSCap = config.ReadBoolean("Experimental", "forceFPSCap", true);
+		maxFPS = config.ReadInteger("Experimental", "maxFPS", 1000);
+	}
+}
 
 namespace framerateUncap
 {
@@ -89,9 +107,13 @@ namespace framerateUncap
 
 void StartPatch()
 {
+	// Reads the "config.ini" config file for values that we are going to want to modify.
+	config::readConfig();
+
 	// Unprotects the main module handle.
     ScopedUnprotect::FullModule UnProtect(baseModule);
 
+	// Uncaps the framerate.
 	framerateUncap::uncapFPS();
 }
 
