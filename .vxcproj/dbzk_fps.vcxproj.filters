@@ -13,10 +13,16 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Third-Party">
+    <Filter Include="Source Files\ThirdParty">
+      <UniqueIdentifier>{489bd0eb-fa16-4bc4-a5ae-734be9a0bd0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ThirdParty\ModUtils">
+      <UniqueIdentifier>{cc0b726f-2db3-44f8-9bf4-23535acf1666}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty">
       <UniqueIdentifier>{fc299b63-1fbf-4d55-8075-6cb84e4fc7da}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Third-Party\ModUtils">
+    <Filter Include="ThirdParty\ModUtils">
       <UniqueIdentifier>{1bacaf6d-ce2d-4b88-aad4-597e12ae6443}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -27,6 +33,9 @@
     <ClCompile Include="..\Source\pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\ThirdParty\ModUtils\Patterns.cpp">
+      <Filter>Source Files\ThirdParty\ModUtils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\framework.h">
@@ -36,25 +45,25 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\21xMachi9\Source\ThirdParty\ModUtils\DelimStringReader.h">
-      <Filter>Third-Party\ModUtils</Filter>
+      <Filter>ThirdParty\ModUtils</Filter>
     </ClInclude>
     <ClInclude Include="..\..\21xMachi9\Source\ThirdParty\ModUtils\HookInit.hpp">
-      <Filter>Third-Party\ModUtils</Filter>
+      <Filter>ThirdParty\ModUtils</Filter>
     </ClInclude>
     <ClInclude Include="..\..\21xMachi9\Source\ThirdParty\ModUtils\LateStaticInit.h">
-      <Filter>Third-Party\ModUtils</Filter>
+      <Filter>ThirdParty\ModUtils</Filter>
     </ClInclude>
     <ClInclude Include="..\..\21xMachi9\Source\ThirdParty\ModUtils\MemoryMgr.GTA.h">
-      <Filter>Third-Party\ModUtils</Filter>
+      <Filter>ThirdParty\ModUtils</Filter>
     </ClInclude>
     <ClInclude Include="..\..\21xMachi9\Source\ThirdParty\ModUtils\MemoryMgr.h">
-      <Filter>Third-Party\ModUtils</Filter>
+      <Filter>ThirdParty\ModUtils</Filter>
     </ClInclude>
     <ClInclude Include="..\..\21xMachi9\Source\ThirdParty\ModUtils\ModuleList.hpp">
-      <Filter>Third-Party\ModUtils</Filter>
+      <Filter>ThirdParty\ModUtils</Filter>
     </ClInclude>
     <ClInclude Include="..\..\21xMachi9\Source\ThirdParty\ModUtils\Trampoline.h">
-      <Filter>Third-Party\ModUtils</Filter>
+      <Filter>ThirdParty\ModUtils</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
