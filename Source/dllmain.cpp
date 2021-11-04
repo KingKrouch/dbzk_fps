@@ -28,43 +28,93 @@
 #include <math.h>
 #include <process.h>
 #include <stdio.h>
+// Silent's ModUtils for unprotecting the main module, pattern scanning, and inserting trampolines.
 #include "../Source/ThirdParty/ModUtils/MemoryMgr.h"
+#include "../Source/ThirdParty/ModUtils/Patterns.h"
+#include "../Source/ThirdParty/ModUtils/Trampoline.h"
+// ThirteenAG's IniReader for reading config files.
+#include "../Source/ThirdParty/IniReader/IniReader.h"
 
 using namespace std;
+using namespace hook;
+using namespace Memory::VP;
 
 // Misc variables
 bool check = true; // do not change to false or else resolution checks won't run.
 
+float useCustomFPSCap;
+float maxFPS;
+
 // Process HMODULE variable
 HMODULE baseModule = GetModuleHandle(NULL);
 
-void uncapFPS() //Uncaps the framerate.
+namespace config
 {
-	//Writes the new t.MaxFPS cap to memory, alongside pointer.
-	*(float*)(*((intptr_t*)((intptr_t)baseModule + 0x04E51CB8)) + 0x0) = (float)9999;
+	void readConfig()
+	{
+		cout.flush();
+		//freopen(FILE**)stdout, "CONOUT$", "w", stdout); // Allows us to add outputs to the ASI Loader Console Window.
+		cout.clear();
+		cin.clear();
+		CIniReader config("config.ini");
+		// Framerate/VSync Config Values
+		useCustomFPSCap = config.ReadBoolean("Experimental", "forceFPSCap", true);
+		maxFPS = config.ReadInteger("Experimental", "maxFPS", 1000);
+	}
 }
 
-void framerateCheck()
+namespace framerateUncap
 {
-	if (*(float*)(*((intptr_t*)((intptr_t)baseModule + 0x04E51CB8)) + 0x0) != (float)9999)
+	void uncapFPS() //Uncaps the framerate.
 	{
-		uncapFPS();
+		try
+		{
+			// We only want to detour the function on the first five bytes, which is the opcode that accesses the register containing the framerate cap.
+			auto fpsCapFunc_pattern = pattern("f3 0f 10 04 83 0f 28 74 24 ? 44 0f 28 4c 24 ? 48 83 c4 ? 5b c3 b0");
+			// Afterwards, we then jump back to the part after the opcode is written to.
+			auto fpsCapFuncJump_pattern = pattern("0f 28 74 24 ? 44 0f 28 4c 24 ? 48 83 c4 ? 5b c3 b0");
+
+			if (fpsCapFunc_pattern.count(1).size() == 1 && fpsCapFuncJump_pattern.count(1).size() == 1)
+			{
+				auto fpsCapFunc = fpsCapFunc_pattern.get_first();
+				auto fpsCapFuncJump = fpsCapFuncJump_pattern.get_first();
+
+				Trampoline* trampoline = Trampoline::MakeTrampoline(fpsCapFunc);
+
+				float* ptr = trampoline->Pointer<float>();
+				*ptr = maxFPS;
+
+				// Creates a space that we can use to make assembly functions using binary representations of them.
+				const uint8_t fpsCapPayload[] = {
+					//0xf3, 0x0f, 0x10, 0x04, 0x83, // movss xmm0,[rbx+rax*4] (original FPS cap instruction)
+					0xF3, 0x0F, 0x10, 0x05, 0x00, 0x00, 0x00, 0x00, // movss xmm0,[ptr] (We need to change the 04 byte to 05 for some reason before doing this)
+					0xE9, 0x00, 0x00, 0x00, 0x00, // jmp fpsCapFuncJump+6 (Add a byte to the count of the original FPS cap instruction to go to the next instruction)
+				};
+
+				std::byte* space = trampoline->RawSpace(sizeof(fpsCapPayload)); 
+				memcpy(space, fpsCapPayload, sizeof(fpsCapPayload)); // Creates a trampoline the size of our FPS cap payload.
+
+				WriteOffsetValue(space + 4, ptr); // Start the offset for the pointer reference on the fifth byte of the new FPS cap instruction
+				WriteOffsetValue(space + 8 + 1, reinterpret_cast<intptr_t>(fpsCapFuncJump)); // Place the JMP address on the tenth byte in our code cave.
+
+				// Inject a hook into the function and redirect it to the ASM function that we want to modify.
+				InjectHook(fpsCapFunc, space, PATCH_JUMP);
+			}
+		}
+		TXN_CATCH();
 	}
 }
 
 void StartPatch()
 {
+	// Reads the "config.ini" config file for values that we are going to want to modify.
+	config::readConfig();
+
 	// Unprotects the main module handle.
     ScopedUnprotect::FullModule UnProtect(baseModule);
 
-    Sleep(5000); // Sleeps the thread for five seconds before applying the memory values.
-
-	framerateCheck();
-
-	while (check != false)
-	{
-		framerateCheck();
-	}
+	// Uncaps the framerate.
+	framerateUncap::uncapFPS();
 }
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReserved)

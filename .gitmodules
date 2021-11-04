@@ -1,3 +1,6 @@
 [submodule "Source/ThirdParty/ModUtils"]
 	path = Source/ThirdParty/ModUtils
 	url = https://github.com/CookiePLMonster/ModUtils
+[submodule "Source/ThirdParty/IniReader"]
+	path = Source/ThirdParty/IniReader
+	url = https://github.com/ThirteenAG/IniReader
