@@ -1,0 +1,9 @@
+So for the signature scan, this is the result:
+
+Address of signature = AT-Win64-Shipping.exe + 0x019F0FD5
+"\xF3\x0F\x00\x00\x00\xE8\x00\x00\x00\x00\x8B\x47\x00\x48\x8B", "xx???x????xx?xx"
+"F3 0F ? ? ? E8 ? ? ? ? 8B 47 ? 48 8B"
+
+movss [rdi+38], xmm1 is the offending line. (F3 0F 11 4F 38). You'd ideally want to copy something to the xmm1 register before making this call to get the game to force whatever framerate target you want (as a float variable).
+
+the line after that is call AT-Win64-Shipping.exe+19DD3F0 (E8 11 C4 FE FF). This is ideally what needs to be jumped to afterwards.

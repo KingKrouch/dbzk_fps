@@ -1,5 +1,3 @@
-/** dllmain.cpp: This is where the magic happens!
-
 /**
 dbzk_fps Copyright (c) 2023 Bryce Q.
 
@@ -22,22 +20,61 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 **/
 
-#include <windows.h>
-#include "Managers/HookManager.h"
+#ifndef dbzk_fps_PLAYERSETTINGS_H
+#define dbzk_fps_PLAYERSETTINGS_H
 
-auto& hkMgr = dbzk_fps::HookManager::Get(); // Declares a pointer to the HookManager singleton used to initialize hooking.
+namespace dbzk_fps {
+    class PlayerSettings {
+    public:
+        static PlayerSettings& Get() {
+            return ps_Instance;
+        }
 
-BOOL WINAPI DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved)
-{
-	switch (dwReason) {
-	case DLL_PROCESS_ATTACH: {
-		hkMgr.BeginHook(); // Begins the hooking process when the DLL file attaches.
-		break;
-	}
-	case DLL_PROCESS_DETACH: {
-		hkMgr.EndHook(); // Cleans up odds and ends when the DLL file detaches.
-		break;
-	}
-	}
-	return TRUE;
+        struct ResolutionSettings {
+
+        };
+
+        struct FOVSettings {
+
+        };
+
+        struct SyncSettings {
+            int  MaxFPS       = 9999;
+        };
+
+        struct RenderingSettings {
+
+        };
+
+        struct InputSettings {
+
+        };
+
+        struct MiscSettings {
+
+        };
+
+        struct LauncherSettings {
+
+        };
+
+        struct InternalSettings {
+
+        };
+
+        struct ResolutionSettings RES {};
+        struct FOVSettings FOV {};
+        struct SyncSettings SYNC {};
+        struct RenderingSettings RS {};
+        struct InputSettings IS {};
+        struct MiscSettings MS {};
+        struct LauncherSettings LS {};
+        struct InternalSettings INS {};
+
+    private:
+        PlayerSettings() {}
+        static PlayerSettings ps_Instance;
+    };
 }
+
+#endif //dbzk_fps_PLAYERSETTINGS_H

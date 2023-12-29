@@ -1,5 +1,3 @@
-/** dllmain.cpp: This is where the magic happens!
-
 /**
 dbzk_fps Copyright (c) 2023 Bryce Q.
 
@@ -23,21 +21,23 @@ SOFTWARE.
 **/
 
 #include <windows.h>
-#include "Managers/HookManager.h"
+#include <iostream>
+#include <fstream>
+#include <stdio.h>
 
-auto& hkMgr = dbzk_fps::HookManager::Get(); // Declares a pointer to the HookManager singleton used to initialize hooking.
+#ifndef dbzk_fps_CONSOLEMANAGER_H
+#define dbzk_fps_CONSOLEMANAGER_H
 
-BOOL WINAPI DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved)
-{
-	switch (dwReason) {
-	case DLL_PROCESS_ATTACH: {
-		hkMgr.BeginHook(); // Begins the hooking process when the DLL file attaches.
-		break;
-	}
-	case DLL_PROCESS_DETACH: {
-		hkMgr.EndHook(); // Cleans up odds and ends when the DLL file detaches.
-		break;
-	}
-	}
-	return TRUE;
+namespace dbzk_fps {
+    class ConsoleManager {
+    public:
+        static ConsoleManager& Get() {
+            return csm_Instance;
+        }
+        void Init();
+    private:
+        static ConsoleManager csm_Instance;
+    };
 }
+
+#endif //dbzk_fps_CONSOLEMANAGER_H

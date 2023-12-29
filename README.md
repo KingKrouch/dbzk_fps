@@ -15,13 +15,18 @@ Copy the plugins folder and dsound.dll (ASI Loader) into the **"\AT\Binaries\Win
 
 *Note: If you don't have any other Steam library locations set up, this will likely be **"C:\Program Files (x86)\Steam\SteamApps\Common\DRAGON BALL Z KAKAROT"**.*
 
+### Linux, Steam Deck, and Proton Compatibility Notice:
+Add ``WINEDLLOVERRIDES="dinput8=n,b" %command%`` to the Steam launch options after following the installation instructions:
+
+![Proton_Instructions](Resources/Proton_Instructions.png)
+
 ## System Requirements
 * A *Legitimate* fully updated copy of the game from Steam *(Due to the difference in memory offsets that can result with cracked/pirated versions, the fact that these versions are likely outdated builds, and the fact that I vehemently discourage piracy when there are convenient and accessible options available to support the developers, **I refuse** to provide technical support for these versions. That includes anyone without a mouse cursor icon next to their name on the Steam Discussion Boards).*<br />
 [***The game is available for purchase on Steam.***](https://store.steampowered.com/app/851850)
 
 * Windows 10 or Windows 11 (Compatibility with Proton on Linux is undetermined). **64-Bit operating system is required.**
 
-* [Microsoft Visual C++ Redistributables for Visual Studio 2019](https://aka.ms/vs/16/release/vc_redist.x64.exe)
+* [Microsoft Visual C++ Redistributables for Visual Studio 2022](https://aka.ms/vs/17/release/vc_redist.x64.exe)
 
 ## Download (For novices)
 [Latest version can be downloaded here.](https://github.com/KingKrouch/dbzk_fps/releases)
@@ -29,7 +34,7 @@ Copy the plugins folder and dsound.dll (ASI Loader) into the **"\AT\Binaries\Win
 Download includes the latest version of [Ultimate ASI Loader](https://github.com/ThirteenAG/Ultimate-ASI-Loader).
 
 ## Legal Stuff
-**dbzk_fps (C) 2021 Bryce Q.**
+**dbzk_fps (C) 2023 Bryce Q.**
 
 **dbzk_fps is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.**
 

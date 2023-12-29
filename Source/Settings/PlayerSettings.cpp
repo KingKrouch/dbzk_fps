@@ -1,5 +1,3 @@
-/** dllmain.cpp: This is where the magic happens!
-
 /**
 dbzk_fps Copyright (c) 2023 Bryce Q.
 
@@ -22,22 +20,5 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 **/
 
-#include <windows.h>
-#include "Managers/HookManager.h"
-
-auto& hkMgr = dbzk_fps::HookManager::Get(); // Declares a pointer to the HookManager singleton used to initialize hooking.
-
-BOOL WINAPI DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved)
-{
-	switch (dwReason) {
-	case DLL_PROCESS_ATTACH: {
-		hkMgr.BeginHook(); // Begins the hooking process when the DLL file attaches.
-		break;
-	}
-	case DLL_PROCESS_DETACH: {
-		hkMgr.EndHook(); // Cleans up odds and ends when the DLL file detaches.
-		break;
-	}
-	}
-	return TRUE;
-}
+#include "PlayerSettings.h"
+dbzk_fps::PlayerSettings dbzk_fps::PlayerSettings::ps_Instance; // Seemingly need this declared in PlayerSettings.cpp so a bunch of linker errors don't happen.

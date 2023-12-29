@@ -1,5 +1,3 @@
-/** dllmain.cpp: This is where the magic happens!
-
 /**
 dbzk_fps Copyright (c) 2023 Bryce Q.
 
@@ -22,22 +20,24 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 **/
 
-#include <windows.h>
-#include "Managers/HookManager.h"
+#ifndef dbzk_fps_CONFIGMANAGER_H
+#define dbzk_fps_CONFIGMANAGER_H
 
-auto& hkMgr = dbzk_fps::HookManager::Get(); // Declares a pointer to the HookManager singleton used to initialize hooking.
+namespace dbzk_fps {
+    class ConfigManager {
+    public:
+        static ConfigManager& Get() {
+            return cm_Instance;
+        }
 
-BOOL WINAPI DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved)
-{
-	switch (dwReason) {
-	case DLL_PROCESS_ATTACH: {
-		hkMgr.BeginHook(); // Begins the hooking process when the DLL file attaches.
-		break;
-	}
-	case DLL_PROCESS_DETACH: {
-		hkMgr.EndHook(); // Cleans up odds and ends when the DLL file detaches.
-		break;
-	}
-	}
-	return TRUE;
+        void Init();
+        void SaveConfig();
+        void ReadConfig();
+
+    private:
+        static ConfigManager cm_Instance;
+        bool AlreadyReadConfig;
+    };
 }
+
+#endif //dbzk_fps_CONFIGMANAGER_H
