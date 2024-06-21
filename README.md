@@ -1,6 +1,9 @@
 # DBZK_FPS (Framerate Uncapper for DragonBall Z: Kakarot's PC Version)
 [![Build status](https://ci.appveyor.com/api/projects/status/mwjnkv0rrv6cnxs0?svg=true)](https://ci.appveyor.com/project/KingKrouch/dbzk-fps/build/artifacts)
 
+## NOTE:
+This version of the mod is outdated. Please go to [DBZK_Fix](https://github.com/KingKrouch/DBZK_Fix) for a version that actually works with the latest version of the game. This repository will be archived.
+
 ## About
 An ASI Loader plugin which allows DragonBall Z: Kakarot to run above it's 60FPS cap.
 
